@@ -1,7 +1,7 @@
-// TODO: 이곳에 커스텀훅 작성하세요.
 import { useCallback, useEffect, useState } from "react";
 
-const useFetch = (url, setTitle) => {
+const useFetch = (url) => {
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -12,19 +12,19 @@ const useFetch = (url, setTitle) => {
         throw new Error("Network 오류");
       }
       const result = await response.json();
-      setTitle(result.title);
+      setData(result);
     } catch (error) {
       setError(error);
     } finally {
       setLoading(false);
     }
-  }, [url, setTitle]);
+  }, [url]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  return { loading, error };
+  return { data, loading, error };
 };
 
 export default useFetch;
